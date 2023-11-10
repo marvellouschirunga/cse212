@@ -39,7 +39,23 @@ public static class ArraysTester {
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
-        return new double[0]; // replace this return statement with your own
+        // MY STEPS:
+        /*
+        1. Creating a list for all multiples (multiplesList)
+        2. Find mutiples using a for loop.
+           - initialize i to 1 an iterate from 1 to length
+           - while in loop multiply number by i to get mutiple (double)
+           -add multiple to multiplesList
+        3. Convert list to array using ToArray method and return it
+        */
+        List<double> multplesList = new List<double>();
+        for (int i = 1; i <=length; i++)
+        {
+            double multiple = number * i;
+            multplesList.Add(multiple);
+        }
+        
+        return multplesList.ToArray();
     }
     
     /// <summary>
@@ -50,12 +66,42 @@ public static class ArraysTester {
     /// <br /><br />
     /// Because a list is dynamic, this function will modify the existing <c>data</c> list rather than returning a new list.
     /// </summary>
-    private static void RotateListRight(List<int> data, int amount)
+    private static List<int> RotateListRight(List<int> data, int amount)
     {
-        // TODO Problem 2 Start
+         // TODO Problem 2 Start
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
+
+        //MySteps:
+        /*
+        1.Check to see if amount is within range
+        2. Calculate the index to split the last by subtracting amount from number of items in list
+        3. Create two sublist (leftList and rightList) by using GetRange method
+           where leftList will include list items from 0 to the split index
+           and the rightList will include range from splitIndex to amount.
+        4. Clear original list using Clear() method
+        5. Add rightList to cleared originalList using AddRange method
+        6. Add leftList to new originalList using AddRange method
+        */
+
+        if (amount <= data.Count) {
+            int splitIndex = data.Count - amount;
+
+            List<int> leftList = data.GetRange(0, splitIndex);
+            List<int> rightList = data.GetRange(splitIndex, amount);
+
+            data.Clear();
+            data.AddRange(rightList);
+            data.AddRange(leftList);
+
+            return data;
+        }
+        else
+    {
+        // Handle invalid amount
+        throw new ArgumentException("Invalid rotation amount");
+    }
     }
 }
