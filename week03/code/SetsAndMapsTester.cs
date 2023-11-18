@@ -111,6 +111,21 @@ public static class SetsAndMapsTester {
         // To display the pair correctly use something like:
         // Console.WriteLine($"{word} & {pair}");
         // Each pair of words should displayed on its own line.
+
+        var pair = new HashSet<string>();
+        foreach (string word in words)
+        {
+            string reversed = $"{word[1]}{word[0]}";
+            if (pair.Contains(reversed))
+            {
+                Console.WriteLine($"{word} & {reversed}");
+            }
+            else 
+            {
+                pair.Add(word);
+            }
+        }
+
     }
 
     /// <summary>
@@ -127,15 +142,37 @@ public static class SetsAndMapsTester {
     /// #############
     /// # Problem 2 #
     /// #############
-    private static Dictionary<string, int> SummarizeDegrees(string filename) {
-        var degrees = new Dictionary<string, int>();
-        foreach (var line in File.ReadLines(filename)) {
-            var fields = line.Split(",");
-            // Todo Problem 2 - ADD YOUR CODE HERE
-        }
+    private static Dictionary<string, int> SummarizeDegrees(string filename)
+{
+    var degrees = new Dictionary<string, int>();
+    
+    foreach (var line in File.ReadLines(filename))
+    {
+        var fields = line.Split(",");
 
-        return degrees;
+        if (fields.Length > 3)
+        {
+            string degreeName = fields[3].Trim();
+
+            if (!string.IsNullOrWhiteSpace(degreeName))
+            {
+                string normalizedDegree = degreeName.ToLower();
+
+                if (degrees.ContainsKey(normalizedDegree))
+                {
+                    degrees[normalizedDegree]++;
+                }
+                else
+                {
+                    degrees[normalizedDegree] = 1;
+                }
+            }
+        }
     }
+
+    return degrees;
+}
+
 
     /// <summary>
     /// Determine if 'word1' and 'word2' are anagrams.  An anagram
@@ -157,8 +194,27 @@ public static class SetsAndMapsTester {
     /// # Problem 3 #
     /// #############
     private static bool IsAnagram(string word1, string word2) {
-        // Todo Problem 3 - ADD YOUR CODE HERE
-        return false;
+        // First removing spaces and convert strings to lowercase
+        word1 = word1.Replace(" ", "").ToLower();
+        word2 = word2.Replace(" ", "").ToLower();
+
+        if (word1.Length != word2.Length)
+            return false;
+
+        char[] charArray1 = word1.ToCharArray();
+        char[] charArray2 = word2.ToCharArray();
+
+        Array.Sort(charArray1);
+        Array.Sort(charArray2);
+
+        // Comparing sorted arrays
+        for (int i = 0; i < charArray1.Length; i++)
+        {
+            if (charArray1[i] != charArray2[i])
+                return false;
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -232,5 +288,7 @@ public static class SetsAndMapsTester {
         var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
         // 1. Add your code to map the json to the feature collection object
         // 2. Print out each place a earthquake has happened today
+
+        
     }
 }
